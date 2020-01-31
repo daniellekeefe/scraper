@@ -1,41 +1,68 @@
 var express = require("express");
 var axios = require("axios");
 var cheerio = require("cheerio");
+var mongoose = require("mongoose"); // Require Mongoose to store story in database
 
+
+// Requiring the `IStory` model for accessing the `story` collection
 var PORT = process.env.PORT || 3000;
 
 // Initialize Express
 var app = express();
 
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/scraper";
+mongoose.connect(MONGODB_URI);
+var db= require("./models")
+
 // Configure middleware
 // Parse request body as JSON
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({
+  extended: true
+}));
 app.use(express.json());
 
 // Make public a static folder
 app.use(express.static("public"));
 
 // Simple index route
-app.get("/", function(req, res) {
+app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname + "./public/index.html"));
 });
 
-// Start the server
-app.listen(PORT, function() {
-  console.log("App listening on port " + PORT);
+app.get("/api/all", (req,res)=>{
+  db.Scraper.find({}).then(data=>{
+    res.json(data)
+  })
+})
 
-  axios.get("https://idioms.thefreedictionary.com/light").then(function(response) {
-   
+// Start the server
+app.listen(PORT, function () {
+  console.log("App listening on port " + PORT);
+})
+app.get("/scrape", function(req, res){
+
+  axios.get("https://americanliterature.com/poems-for-kids").then(function (response) {
+
+    // Load the HTML into cheerio
     var $ = cheerio.load(response.data);
 
-    var idioms = [];
-    var links = [];
-    var listItems = $("ul.idiKw li a").each(function(i, elem) {
-        idioms.push($(elem).text());
-        links.push("https://thefreedictionary.com/" + $(elem).attr("href"));
+    // Make an empty array for saving our scraped info
+    var listItems = [];
+
+    // With cheerio, look at each award-winning site, enclosed in "figure" tags with the class name "site"
+    $(".smartlist").children('li').each(function (i, element) {
+      let title = $(element).children(".sslink").text()
+      let description = $(element).children(".intros").text()
+      console.log(title, " ", description)
+      db.Scraper.create({title, description}).then((response)=>console.log("X",response))
+
+      //     /* Cheerio's find method will "find" the first matching child element in a parent.
+      //      *    We start at the current element, then "find" its first child a-tag.
+    
     });
 
-    console.log(idioms);
-    console.log(links);
-});
+    // After looping through each element found, log the results to the console
+    console.log(listItems);
+  });
+ res.send("Scraped")
 });

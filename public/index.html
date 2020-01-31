@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <title>Idiom Scraper</title>
+    <title>Scraper</title>
   </head>
   <body>
    
@@ -16,15 +16,15 @@
 
     <div class="container">
 
-        <h1>Idiom Scraper</h1>
+        <h1>Scraper</h1>
 
         <div class="row mt-5">
                 <div class="col">
                         <form>
                                 <div class="form-group">
-                                  <label for="scrapeTerm">Scrape Idioms by Term</label>
+                                  <label for="scrapeTerm">Scrape by Term</label>
                                   <input type="text" class="form-control" id="scrapeTerm" aria-describedby="scrapeHelp" placeholder="Enter single word search term">
-                                  <small id="scrapeHelp" class="form-text text-muted">Enter a single word search term and we'll scrape an idiom dictionary for idioms that contain your search term.</small>
+                                  <small id="scrapeHelp" class="form-text text-muted">Enter a search.</small>
                                 </div>
                                 <button type="submit" class="btn btn-primary" id="scrapeButton">Scrape</button>
                         </form>
@@ -34,19 +34,19 @@
         <div class="row mt-5">
                 <div class="col">
                         <div class="form-group">
-                            <label for="searchTerm">Search scraped idioms stored with MongoDB.</label>
+                            <label for="searchTerm">Search scrapes stored with MongoDB.</label>
                             <input type="text" class="form-control" id="searchTerm" aria-describedby="searchHelp" placeholder="Enter single word search term">
-                            <small id="searchHelp" class="form-text text-muted">Enter a single word search term and we'll search our MongoDB for idioms we've already scraped.</small>
+                            <small id="searchHelp" class="form-text text-muted">Enter a single word search term and we'll search our MongoDB for searches we've already scraped.</small>
                         </div>
-                        <button type="submit" class="btn btn-primary" id="searchButton">Search Saved Idioms</button>
+                        <button type="submit" class="btn btn-primary" id="searchButton">Search Saved Scrapes</button>
                 </div>
         </div>
 
         <div class="row mt-5">
                 <div class="col">
-                           <label for="searchTerm">Search scraped idioms stored with MongoDB.</label>
+                           <label for="searchTerm">Search scrapes stored with MongoDB.</label>
                         </br>  
-                        <button type="submit" class="btn btn-primary" id="getAllButton">Get All Saved Idioms</button>
+                        <button type="submit" class="btn btn-primary" id="getAllButton">Get All Saved Scrapes</button>
                 </div>
         </div>
 

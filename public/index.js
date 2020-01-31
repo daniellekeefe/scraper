@@ -13,21 +13,21 @@ $(document).ready(function () {
 
         getAll: function () {
             return $.ajax({
-                url: "/idioms",
+                url: "/story",
                 type: "GET"
             });
         },
 
         searchTerm: function (term) {
             return $.ajax({
-                url: "/idioms/search/" + term,
+                url: "/story/search/" + term,
                 type: "GET"
             });
         },
 
         scrapeTerm: function (term) {
             return $.ajax({
-                url: "/idioms/scrape/" + term,
+                url: "/story/scrape/" + term,
                 type: "POST"
             });
         }
@@ -82,8 +82,7 @@ $(document).ready(function () {
 
    
     /* Utilities */
-    //  Utility to make a table from aset of data ( an array of arrays )
-    //  https://www.htmlgoodies.com/beyond/css/working_w_tables_using_jquery.html
+
     function makeTable(container, data) {
         var table = $("<table/>").addClass('table table-striped');
         $.each(data, function (rowIndex, r) {
@@ -97,14 +96,14 @@ $(document).ready(function () {
         return container.html(table);
     }
 
-    //  Utility to take a response filled with idioms and make it into an array of arrays that is in a format ready for our "makeTable" utility.
+    //  Utility to take a response filled with story and make it into an array of arrays that is in a format ready for our "makeTable" utility.
     function prepareResponseForTable(response) {
         var data = [];
-        data[0] = ["idiom"]; // Row header ( Add more columns if needed )
+        data[0] = ["story"]; // Row header ( Add more columns if needed )
 
-        response.forEach(function (eachIdiom) {
-            //   data.push([eachIdiom._id, eachIdiom.idiom, eachIdiom.link, eachIdiom._v]);
-            data.push([eachIdiom.idiom]);
+        response.forEach(function (eachStory) {
+            //   data.push([eachStory._id, eachStory.story, eachStory.link, eachStory._v]);
+            data.push([eachStory.story]);
         });
 
         return data; // Returns an array of arrays for "makeTable"
