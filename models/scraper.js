@@ -5,10 +5,10 @@
 // ];
 // //line below exports the module
 // module.exports = scraper;
-var mongoose = require("mongoose")
-var Schema = mongoose.Schema
+let mongoose = require("mongoose")
+let Schema = mongoose.Schema
 
-var ScraperSchema = new Schema({
+let ScraperSchema = new Schema({
     title: {
         type: String,
         required: true
@@ -16,6 +16,6 @@ var ScraperSchema = new Schema({
     description: String
 })
 
-var Scraper = mongoose.model("Scraper", ScraperSchema)
+let Scraper = mongoose.model("Scraper", ScraperSchema)
 
 module.exports = Scraper;

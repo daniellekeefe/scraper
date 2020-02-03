@@ -1,33 +1,33 @@
 $(document).ready(function () {
 
     /* Create variables to Dom needed DOM elements */
-    var $scrapeTerm = $("#scrapeTerm");
-    var $scrapeButton = $("#scrapeButton");
-    var $searchTerm = $("#searchTerm");
-    var $searchButton = $("#searchButton");
-    var $getAllButton = $("#getAllButton");
-    var $tableDiv = $("#tableDiv");
+    let $scrapeTerm = $("#scrapeTerm");
+    let $scrapeButton = $("#scrapeButton");
+    let $searchTerm = $("#searchTerm");
+    let $searchButton = $("#searchButton");
+    let $getAllButton = $("#getAllButton");
+    let $tableDiv = $("#tableDiv");
 
     /* Create API object to make AJAX calls */
-    var searchAPI = {
+    let searchAPI = {
 
         getAll: function () {
             return $.ajax({
-                url: "/story",
+                url: "/scrape",
                 type: "GET"
             });
         },
 
         searchTerm: function (term) {
             return $.ajax({
-                url: "/story/search/" + term,
+                url: "/api/all" + term,
                 type: "GET"
             });
         },
 
         scrapeTerm: function (term) {
             return $.ajax({
-                url: "/story/scrape/" + term,
+                url: "/api/all" + term,
                 type: "POST"
             });
         }
@@ -36,14 +36,14 @@ $(document).ready(function () {
 
 
     /* Functions called by Event Listeners */
-    var handleScrapeSubmit = function (event) {
+    let handleScrapeSubmit = function (event) {
         event.preventDefault();
 
-        var searchTerm = $scrapeTerm.val().trim();
+        let searchTerm = $scrapeTerm.val().trim();
 
         searchAPI.scrapeTerm(searchTerm).then(function (resp) {
 
-            var data = prepareResponseForTable(resp);
+            let data = prepareResponseForTable(resp);
             makeTable($tableDiv, data);
         });
 
@@ -52,13 +52,13 @@ $(document).ready(function () {
     };
 
 
-    var handleSearchSubmit = function (event) {
+    let handleSearchSubmit = function (event) {
 
-        var searchTerm = $searchTerm.val().trim();
+        let searchTerm = $searchTerm.val().trim();
 
         searchAPI.searchTerm(searchTerm).then(function (resp) {
 
-            var data = prepareResponseForTable(resp);
+            let data = prepareResponseForTable(resp);
             makeTable($tableDiv, data);
         });
 
@@ -66,11 +66,11 @@ $(document).ready(function () {
         $searchTerm.val("");
     };
 
-    var handleGetAll = function (event) {
+    let handleGetAll = function (event) {
 
         searchAPI.getAll()
         .then(function(resp) {
-            var data = prepareResponseForTable(resp);
+            let data = prepareResponseForTable(resp);
             makeTable($tableDiv, data);
 
         })
@@ -84,10 +84,10 @@ $(document).ready(function () {
     /* Utilities */
 
     function makeTable(container, data) {
-        var table = $("<table/>").addClass('table table-striped');
+        let table = $("<table/>").addClass('table table-striped');
         $.each(data, function (rowIndex, r) {
 
-            var row = $("<tr/>");
+            let row = $("<tr/>");
             $.each(r, function (colIndex, c) {
                 row.append($("<t" + (rowIndex == 0 ? "h" : "d") + "/>").text(c));
             });
@@ -98,8 +98,8 @@ $(document).ready(function () {
 
     //  Utility to take a response filled with story and make it into an array of arrays that is in a format ready for our "makeTable" utility.
     function prepareResponseForTable(response) {
-        var data = [];
-        data[0] = ["story"]; // Row header ( Add more columns if needed )
+        let data = [];
+        data[0] = ["title"]; // Row header ( Add more columns if needed )
 
         response.forEach(function (eachStory) {
             //   data.push([eachStory._id, eachStory.story, eachStory.link, eachStory._v]);
